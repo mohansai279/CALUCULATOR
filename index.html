@@ -34,7 +34,6 @@
         box-sizing: border-box;
     }
     nav {
-        background-color: lightgreen;
         width: 20%;
     }
     aside {
@@ -54,7 +53,7 @@
         background-color: white;
         padding: 20px;
         border: 2px solid #000;
-        text-align: left;
+        text-align: center;
         width: 100%;
         max-width: 300px;
     }
@@ -63,11 +62,17 @@
         padding: 5px;
         margin-bottom: 10px;
         font-size: 20px;
+        text-align: right;
     }
     .calculator input[type="button"] {
-        width: 100%;
-        padding: 10px;
+        width: 70px;
+        height: 50px;
+        margin: 5px;
         font-size: 18px;
+    }
+    .calculator .row {
+        display: flex;
+        justify-content: center;
     }
 </style>
 </head>
@@ -77,16 +82,38 @@
         <nav>Navigation</nav>
         <main>
             <div class="calculator">
-                <label for="a">Enter a: </label>
-                <input type="text" id="a" placeholder="Enter value for a">
-                <br>
-                <label for="b">Enter b: </label>
-                <input type="text" id="b" placeholder="Enter value for b">
-                <br>
-                <input type="button" value="Add" onclick="addValues()">
-                <br>
-                <label for="result">Result: </label>
-                <input type="text" id="result" readonly>
+                <input type="text" id="display" readonly>
+                <div class="row">
+                    <input type="button" value="7" onclick="appendToDisplay('7')">
+                    <input type="button" value="8" onclick="appendToDisplay('8')">
+                    <input type="button" value="9" onclick="appendToDisplay('9')">
+                </div>
+                <div class="row">
+                    <input type="button" value="4" onclick="appendToDisplay('4')">
+                    <input type="button" value="5" onclick="appendToDisplay('5')">
+                    <input type="button" value="6" onclick="appendToDisplay('6')">
+                </div>
+                <div class="row">
+                    <input type="button" value="1" onclick="appendToDisplay('1')">
+                    <input type="button" value="2" onclick="appendToDisplay('2')">
+                    <input type="button" value="3" onclick="appendToDisplay('3')">
+                </div>
+                <div class="row">
+                    <input type="button" value="0" onclick="appendToDisplay('0')">
+                    <input type="button" value="." onclick="appendToDisplay('.')">
+                    <input type="button" value="C" onclick="clearDisplay()">
+                </div>
+                <div class="row">
+                    <input type="button" value="+" onclick="appendToDisplay('+')">
+                    <input type="button" value="-" onclick="appendToDisplay('-')">
+                </div>
+                <div class="row">
+                    <input type="button" value="*" onclick="appendToDisplay('*')">
+                    <input type="button" value="/" onclick="appendToDisplay('/')">
+                </div>
+                <div class="row">
+                    <input type="button" value="=" onclick="calculateResult()">
+                </div>
             </div>
         </main>
         <aside>Sider</aside>
@@ -94,14 +121,21 @@
     <footer>Footer</footer>
 
     <script>
-        function addValues() {
-            const a = parseFloat(document.getElementById('a').value);
-            const b = parseFloat(document.getElementById('b').value);
-            if (isNaN(a) || isNaN(b)) {
-                document.getElementById('result').value = 'Invalid input';
-            } else {
-                const sum = a + b;
-                document.getElementById('result').value = sum;
+        function appendToDisplay(value) {
+            const display = document.getElementById('display');
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function calculateResult() {
+            const display = document.getElementById('display');
+            try {
+                display.value = eval(display.value);
+            } catch (e) {
+                display.value = 'Error';
             }
         }
     </script>
